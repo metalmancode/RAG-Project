@@ -2,15 +2,13 @@ import os
 from dotenv import load_dotenv
 
 from llama_index.llms.groq import Groq
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 from src.config import (
     LLM_MODEL,
-    # LLM_MAX_NEW_TOKENS,
-    # LLM_TEMPERATURE,
-    # LLM_TOP_P,
-    # LLM_REPETITION_PENALTY
+    EMBEDDING_MODEL_NAME,
+    EMBEDDING_CACHE_PATH,
 )
-
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -29,9 +27,23 @@ def initialise_llm() -> Groq:
     return Groq(
         api_key=api_key,
         model=LLM_MODEL,
-        # The following parameters are optional
-        # and will default to the model's defaults if not set
-        # max_tokens=LLM_MAX_NEW_TOKENS,
-        # temperature=LLM_TEMPERATURE,
-        # top_p=LLM_TOP_P,
+    )
+
+def get_embedding_model() -> HuggingFaceEmbedding:
+    """
+    Initialises and returns the HuggingFace embedding model.
+    
+    Explanation:
+    An embedding model is a specialised model that converts text into a list of numbers (a vector).
+    It ensures that semantically similar pieces of text have mathematically similar vectors.
+    This is what allows the system to perform a "semantic search" to find relevant parts of your documents.
+    """
+
+    # Create the cache directory if it doesn't exist
+    EMBEDDING_CACHE_PATH.mkdir(parents=True, exist_ok=True)
+
+    # .as_posix() converts a file path object into a string for compatibility
+    return HuggingFaceEmbedding(
+        model_name=EMBEDDING_MODEL_NAME,
+        cache_folder=EMBEDDING_CACHE_PATH.as_posix()
     )

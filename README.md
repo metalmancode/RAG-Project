@@ -1,18 +1,20 @@
-# RAG Project
+# Full RAG Chatbot Project
 
-A modular, stateful Artificial Intelligence chat application built with Python and LlamaIndex. This project acts as the foundational setup for an advanced Retrieval-Augmented Generation (RAG) agent. It currently demonstrates how to orchestrate a stateless Large Language Model (LLM) into an interactive, conversational chatbot with memory.
+A modular, stateful Artificial Intelligence application built with Python and LlamaIndex. This project acts as the foundational setup for an advanced Retrieval-Augmented Generation (RAG) agent.
 
-## Features
+It has been upgraded to a **Full RAG System**. It processes local exterior documents into a highly searchable vector index, and smoothly retrieves and dynamically injects relevant snippets into the language model to answer complex questions based strictly on your external knowledge base! By default, the application is preloaded with data from *Alice's Adventures in Wonderland*.
 
-- **Interactive Chat Interface**: A command-line chat engine managed by LlamaIndex's `SimpleChatEngine`.
-- **Stateful Memory**: Maintains conversational context across multiple turns.
-- **Modular Architecture**: Built following Separation of Concerns to keep configurations, loaders, and core orchestration neatly divided.
-- **Groq Integration**: Powered by high-speed Groq inference (currently utilizing `llama-3.3-70b-versatile`).
+## How RAG Works Here
+
+Our system utilizes three key stages to answer a question:
+1. **Indexing**: On the first run, the engine reads all documents from the `data/` folder. It splits them into digestible chunks (`CHUNK_SIZE`), logically encodes them via a mathematical embedding model (`HuggingFace sentence-transformers/all-MiniLM-L6-v2`), and structurally saves an offline cache to `local_storage/vector_store/` so you never have to re-compute them!
+2. **Retrieval**: When you type a question on the terminal, the system turns your question into an embedded vector and computationally compares it to our Vector Index (Semantic Similarity Search). It aggressively grabs the `SIMILARITY_TOP_K` (most relevant) chunks.
+3. **Generation**: The Llama 3 LLM magically receives both your initial question and the relevant Alice in Wonderland chunk snippets. It digests the snippets and formulates a brilliant, factually grounded final answer!
 
 ## Prerequisites
 
-- **Conda**: You must have Conda (Anaconda or Miniconda) installed on your system.
-- **Groq API Key**: You'll need a free API key from [Groq](https://console.groq.com/).
+- **Conda Environment**: You must have Conda (Anaconda or Miniconda) configured.
+- **Groq API Key**: You'll need an active API key from [Groq](https://console.groq.com/).
 
 ## Installation
 
@@ -22,49 +24,53 @@ A modular, stateful Artificial Intelligence chat application built with Python a
    cd RAG-Project
    ```
 
-2. **Create the Conda Environment:**
-   Build the environment from the provided `environment.yml` configuration.
+2. **Setup the Conda Environment:**
+   Build the environment from the provided `environment.yml`.
    ```bash
    conda env create -f environment.yml
-   ```
-
-3. **Activate the Environment:**
-   ```bash
    conda activate rag-project-env
    ```
 
 ## Configuration
 
-1. In the root directory of the project, create a file named `.env`.
-2. Add your Groq API key exactly as shown below:
+1. In the root directory of the project, create a file precisely named `.env`.
+2. Add your Groq API key:
    ```bash
    # .env
    GROQ_API_KEY="your_groq_api_key_here"
    ```
-*(Note: Because of the `.gitignore` setup, your `.env` file will never be committed to Git. Never share your API keys publicly.)*
 
 ## Usage
 
-Start the interactive chat session by executing the main entry point:
+Start the interactive session by executing the main entry point:
 
 ```bash
 python main.py
 ```
 
-*(If you experience Python path conflicts, you can use the absolute path to your active Conda environment's Python executable, e.g., `/opt/anaconda3/envs/rag-project-env/bin/python main.py`)*
+*(If you experience Python path conflicts, you can use the absolute path to your Conda environment's Python executable, e.g., `/opt/anaconda3/envs/rag-project-env/bin/python main.py`)*
 
-Type `quit` or `exit` to end the conversation.
+Type `quit` or `exit` to cleanly hang up the conversation.
+
+## Customising The Bot Data
+
+To add your own custom knowledge base:
+1. Go into the `data/` folder, delete `alice_in_wonderland.txt`, and drop in your own texts.
+2. **Crucially, delete the dynamically generated `local_storage/` folder gracefully situated in your root directory.**
+3. Run `main.py`. The engine will detect that the database is missing, automatically ingest your new files, chunk them, embed them, and manufacture a brand new vector layer completely catered to you!
 
 ## Project Structure
 
 ```
-├── .env                  # Private API keys and environment variables
-├── .gitignore            # Files excluded from version control
+├── .env                  # Private API keys
+├── .gitignore            # Excluded sensitive/local files
+├── README.md             # Project documentation
 ├── environment.yml       # Conda dependencies and packages
 ├── main.py               # Main application entry point
+├── local_storage/        # Auto-generated offline database for Embeddings & Vectors!
+├── data/                 # Any textual data to inject into LLMs!
 └── src/                  # Application source code
-    ├── __init__.py       # Initializes the src module
-    ├── config.py         # System prompts and model parameters
-    ├── engine.py         # The chat engine (orchestration layer)
-    └── model_loader.py   # LLM component initialization
+    ├── config.py         # Handles systemic paths and limits uniformly
+    ├── engine.py         # Advanced Memory buffering and orchestration indexing 
+    └── model_loader.py   # Embedding translation and Groq injection logic
 ```

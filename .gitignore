@@ -22,3 +22,6 @@ __pycache__/
 .DS_Store
 .vscode/
 .idea/
+
+# Local Storage
+local_storage/
