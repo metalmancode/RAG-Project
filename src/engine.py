@@ -5,7 +5,7 @@ from llama_index.core import (
     load_index_from_storage,
 )
 from llama_index.core.chat_engine.types import BaseChatEngine
-from llama_index.core.memory import ChatMemoryBuffer
+from llama_index.core.memory import ChatSummaryMemoryBuffer
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.schema import Document
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -100,7 +100,9 @@ def get_chat_engine(
     """
 
     vector_index: VectorStoreIndex = get_vector_store(embed_model)
-    memory: ChatMemoryBuffer = ChatMemoryBuffer.from_defaults(
+    memory: ChatSummaryMemoryBuffer = ChatSummaryMemoryBuffer.from_defaults(
+        chat_history=[],
+        llm=llm,
         token_limit=CHAT_MEMORY_TOKEN_LIMIT
     )
 
