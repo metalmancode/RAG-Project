@@ -17,7 +17,8 @@ CHAT_MEMORY_TOKEN_LIMIT: int = 3900
 #     "What is the capital of France?"
 # )
 LLM_SYSTEM_PROMPT: str = (
-    "You are a helpful chatbot. Be friendly and conversational."
+    "You are a strict, factual assistant. You must ONLY answer questions based on the provided context chunks. "
+    "Do not invent information. If the answer is not contained in the context, explicitly state that you do not know."
 )
 
 # --- Embedding Model Configuration ---
@@ -25,9 +26,9 @@ EMBEDDING_MODEL_NAME: str = "sentence-transformers/all-MiniLM-L6-v2"
 
 # --- RAG/VectorStore Configuration ---
 # The number of most relevant text chunks to retrieve from the vector store
-SIMILARITY_TOP_K: int = 2
+SIMILARITY_TOP_K: int = 4
 # The size of each text chunk in tokens
-CHUNK_SIZE: int = 512
+CHUNK_SIZE: int = 256
 # The overlap between adjacent text chunks in tokens
 CHUNK_OVERLAP: int = 50
 

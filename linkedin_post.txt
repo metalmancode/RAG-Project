@@ -1,0 +1,20 @@
+🚀 Just finished building a custom Retrieval-Augmented Generation (RAG) Chatbot from scratch! 🤖📚
+
+Over the past few days, I've been diving deep into Generative AI architecture and successfully built a conversational AI engine that goes beyond the basic LLM cutoff limits by proactively reading and learning from my own offline knowledge base. 
+
+🛠️ Technical Stack & Implementation Details:
+• Python & LlamaIndex for core logic and RAG orchestration
+• Groq integrated to power ultra-fast inference leveraging the Llama 3 (70B) model
+• HuggingFace's sentence-transformers (`all-MiniLM-L6-v2`) used purely locally to map large document bodies into embedded semantic vectors. 
+
+💡 Key Milestones:
+• Vector Store Indexing: Implemented a process to automatically ingest raw textual data (like the script to 'Alice in Wonderland'), logically split it, mathematically embed it, and securely cache the mathematical vectors in local storage. 
+• Semantic Retrieval: Designed the query engine to capture conversational inputs, instantly perform mathematical similarity searches against the cache, and inject the `Top_K` most relevant context chunks directly into the model's awareness.
+• Context Management: Successfully bypassed token degradation and rate limits in long conversations by utilizing LlamaIndex's `ChatSummaryMemoryBuffer` to seamlessly condense older history chunks beneath the hood without losing context!
+
+I'm incredibly proud of the clean, modular "Separation of Concerns" codebase that powers this engine efficiently.
+
+Check out the code and architectural setup on my GitHub! 👇
+[Your GitHub Link: https://github.com/metalmancode/RAG-Project]
+
+#AI #GenerativeAI #MachineLearning #Python #LlamaIndex #Groq #RAG #SoftwareEngineering #DataScience

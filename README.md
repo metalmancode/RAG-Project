@@ -59,6 +59,12 @@ To add your own custom knowledge base:
 2. **Crucially, delete the dynamically generated `local_storage/` folder gracefully situated in your root directory.**
 3. Run `main.py`. The engine will detect that the database is missing, automatically ingest your new files, chunk them, embed them, and manufacture a brand new vector layer completely catered to you!
 
+## Evaluating the System
+
+This project includes a professional evaluation harness built using the Ragas framework to quantitatively measure your RAG system's **Faithfulness**, **Answer Correctness**, **Context Precision**, and **Context Recall**. 
+
+For comprehensive documentation on running these benchmark loops, tuning the retriever hyperparameters, and measuring output without hallucination side-effects, please consult the details inside the [Evaluation Suite Documentation](evaluation/README.md).
+
 ## Project Structure
 
 ```
@@ -66,7 +72,9 @@ To add your own custom knowledge base:
 ├── .gitignore            # Excluded sensitive/local files
 ├── README.md             # Project documentation
 ├── environment.yml       # Conda dependencies and packages
+├── evaluate.py           # Entry script to run Ragas score benchmarks
 ├── main.py               # Main application entry point
+├── evaluation/           # Standalone Ragas test-lab framework
 ├── local_storage/        # Auto-generated offline database for Embeddings & Vectors!
 ├── data/                 # Any textual data to inject into LLMs!
 └── src/                  # Application source code

@@ -25,3 +25,7 @@ __pycache__/
 
 # Local Storage
 local_storage/
+
+# Evaluation Caches
+evaluation/evaluation_embedding_models/
+evaluation/evaluation_vector_stores/
